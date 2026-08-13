@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLANET TUAN · BUDTENDER PORTAL 🌿</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    font-family:'Courier New','Consolas',monospace;
+    background:linear-gradient(180deg,#0D0221 0%,#1B0A3F 40%,#3D1B6B 100%);
+    min-height:100vh; padding:0;
+  }
+  body::after {
+    content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 3px);
+    pointer-events:none;z-index:999;
+  }
+  .ticker { background:#00F0FF;color:#0D0221;font-size:11px;letter-spacing:2px;padding:7px 0;overflow:hidden;white-space:nowrap;font-weight:bold; }
+  .ticker span { display:inline-block;animation:ticker 25s linear infinite; }
+  @keyframes ticker { from{transform:translateX(100vw)} to{transform:translateX(-100%)} }
+  .wrap { max-width:720px;margin:0 auto;padding:30px 20px 60px; }
+  .back { font-size:10px;color:#3D2060;text-decoration:none;letter-spacing:2px;display:block;margin-bottom:24px; }
+  .back:hover { color:#00F0FF; }
+  .arcade-box {
+    background:#0D0221;border:3px solid #00F0FF;
+    box-shadow:0 0 0 2px #0D0221,0 0 0 5px #FF2D95,0 0 20px #00F0FF,inset 0 0 20px rgba(0,240,255,0.08);
+    border-radius:6px;padding:28px;margin-bottom:24px;position:relative;overflow:hidden;
+  }
+  .arcade-box::before { content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 3px);pointer-events:none; }
+  .header { text-align:center;margin-bottom:28px; }
+  .icon { font-size:48px;display:block;margin-bottom:12px;animation:float 3s ease-in-out infinite;filter:drop-shadow(0 0 12px #00F0FF); }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  h1 { font-size:clamp(16px,4vw,26px);color:#00F0FF;text-shadow:2px 2px 0 #FF2D95,0 0 20px #00F0FF;letter-spacing:3px;margin-bottom:8px; }
+  .sub { font-size:10px;color:#8B6DB8;letter-spacing:3px;line-height:1.8; }
+  .blink { animation:blink 1.5s infinite;color:#FF2D95;font-size:11px;letter-spacing:2px;margin-top:6px;display:block; }
+  @keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0.3} }
+  .section-title { font-size:12px;color:#F0FF00;letter-spacing:3px;text-shadow:0 0 8px #F0FF00;margin-bottom:14px;text-align:center; }
+  .perks { display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:0; }
+  .perk { border:1px solid #00F0FF;padding:16px;background:rgba(0,240,255,0.03); }
+  .perk .perk-icon { font-size:24px;display:block;margin-bottom:8px; }
+  .perk strong { display:block;font-size:9px;color:#00F0FF;letter-spacing:2px;margin-bottom:6px;text-shadow:0 0 6px #00F0FF; }
+  .perk p { font-size:10px;color:#8B6DB8;line-height:1.7; }
+  label { display:block;font-size:10px;color:#8B6DB8;letter-spacing:2px;margin-bottom:6px;text-transform:uppercase; }
+  input,select,textarea {
+    width:100%;background:#0D0221;border:2px solid #3D1B6B;color:#fff;
+    font-family:'Courier New',monospace;font-size:13px;padding:11px 13px;outline:none;transition:border-color 0.2s;
+  }
+  input:focus,select:focus,textarea:focus { border-color:#00F0FF;box-shadow:0 0 8px rgba(0,240,255,0.3); }
+  textarea { height:80px;resize:vertical; }
+  select option { background:#0D0221; }
+  .field { margin-bottom:18px;position:relative;z-index:1; }
+  .row2 { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+  .check-group { display:flex;flex-direction:column;gap:10px;margin-top:6px; }
+  .check-item { display:flex;align-items:center;gap:10px;font-size:11px;color:#8B6DB8;cursor:pointer;position:relative;z-index:1; }
+  .check-item input[type=checkbox] { width:16px;height:16px;accent-color:#00F0FF; }
+  .submit-btn {
+    width:100%;background:transparent;border:2px solid #F0FF00;color:#F0FF00;
+    font-family:'Courier New',monospace;font-size:11px;font-weight:bold;
+    padding:15px;letter-spacing:3px;cursor:pointer;margin-top:20px;transition:all 0.2s;
+    position:relative;z-index:1;
+  }
+  .submit-btn:hover { background:#F0FF00;color:#0D0221;box-shadow:0 0 20px #F0FF00; }
+  .legal { font-size:9px;color:#3D2060;text-align:center;margin-top:12px;letter-spacing:1px;line-height:1.8;position:relative;z-index:1; }
+  .success { display:none;text-align:center;padding:40px; }
+  .success .check { font-size:52px;display:block;margin-bottom:16px; }
+  .success h3 { font-size:13px;color:#00F0FF;letter-spacing:2px;margin-bottom:12px;text-shadow:0 0 10px #00F0FF; }
+  .success p { font-size:11px;color:#8B6DB8;line-height:2; }
+  .footer { text-align:center;margin-top:40px;font-size:9px;color:#3D1B6B;letter-spacing:2px; }
+</style>
+</head>
+<body>
+
+<div class="ticker">
+  <span>🌿 BUDTENDER PORTAL — PLANET TUAN · FREE SAMPLES · SECRET MEETUPS · EARLY ACCESS · INDUSTRY PROS ONLY &nbsp;&nbsp;&nbsp;&nbsp; 🛸 TUAN CANNABIS · CA × NY · GUMMIES SEPT 7 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<div class="wrap">
+
+  <a href="/" class="back">← BACK TO PLANET TUAN</a>
+
+  <div class="arcade-box">
+    <div class="header">
+      <span class="icon">🌿</span>
+      <h1>BUDTENDER PORTAL</h1>
+      <div class="sub">SECRET MEETUPS · FREE SAMPLES · TUAN PROGRAMMING<br>FOR CANNABIS INDUSTRY PROFESSIONALS ONLY</div>
+      <span class="blink">— AUTHORIZED ENTRY ONLY —</span>
+    </div>
+
+    <div class="section-title">// WHAT YOU GET</div>
+    <div class="perks" style="margin-bottom:28px;">
+      <div class="perk">
+        <span class="perk-icon">🎁</span>
+        <strong>FREE SAMPLES</strong>
+        <p>First access to new drops before they hit shelves.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-icon">🎮</span>
+        <strong>SECRET MEETUPS</strong>
+        <p>Private events, tastings, education sessions.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-icon">🚀</span>
+        <strong>EARLY ACCESS</strong>
+        <p>Know when new SKUs and gummies drop first.</p>
+      </div>
+      <div class="perk">
+        <span class="perk-icon">🛸</span>
+        <strong>TUAN NETWORK</strong>
+        <p>Connect directly with the TUAN team.</p>
+      </div>
+    </div>
+
+    <div class="section-title">// SIGN UP — IT'S FREE</div>
+
+    <div id="formArea">
+      <div class="field">
+        <label>Your Name *</label>
+        <input type="text" id="name" placeholder="First + Last Name" required>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Email *</label>
+          <input type="email" id="email" placeholder="you@email.com" required>
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" id="phone" placeholder="(555) 000-0000">
+        </div>
+      </div>
+      <div class="field">
+        <label>Dispensary / Store *</label>
+        <input type="text" id="store" placeholder="Where do you work?" required>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>City *</label>
+          <input type="text" id="city" placeholder="Los Angeles, New York..." required>
+        </div>
+        <div class="field">
+          <label>State *</label>
+          <select id="state">
+            <option value="">-- Select --</option>
+            <option>California</option>
+            <option>New York</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Instagram Handle</label>
+        <input type="text" id="ig" placeholder="@yourhandle">
+      </div>
+      <div class="field">
+        <label>I'm interested in</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" value="samples"> Free Samples</label>
+          <label class="check-item"><input type="checkbox" value="events"> Budtender Events + Meetups</label>
+          <label class="check-item"><input type="checkbox" value="education"> Product Education</label>
+          <label class="check-item"><input type="checkbox" value="gummies"> Gummies (Sept 7 Drop)</label>
+          <label class="check-item"><input type="checkbox" value="early"> Early Access to New Drops</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Anything else?</label>
+        <textarea id="notes" placeholder="Tell us about yourself, what you carry, what you love..."></textarea>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">// BEAM ME UP — JOIN THE PROGRAM 🛸</button>
+      <div class="legal">By signing up you agree to receive TUAN updates and event invites. We never sell your data.</div>
+    </div>
+
+    <div class="success" id="successArea">
+      <span class="check">🛸</span>
+      <h3>YOU'RE IN THE PROGRAM</h3>
+      <p>Welcome to Planet TUAN.<br>We'll be in touch with your first invite.<br><br>
+      <span style="color:#F0FF00;">Gummies drop September 7. Watch your inbox.</span></p>
+    </div>
+  </div>
+
+  <div class="footer">PLANET TUAN · BUDTENDER PORTAL · planettuan.com/budtenders</div>
+
+</div>
+
+<script>
+async function submitForm() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const store = document.getElementById('store').value.trim();
+  const city = document.getElementById('city').value.trim();
+  if (!name||!email||!store||!city) { alert('Please fill in all required fields.'); return; }
+  const interests = [...document.querySelectorAll('.check-group input:checked')].map(c=>c.value).join(', ');
+  const data = { name,email,phone:document.getElementById('phone').value,store,city,state:document.getElementById('state').value,instagram:document.getElementById('ig').value,interests,notes:document.getElementById('notes').value,timestamp:new Date().toLocaleString(),type:'BUDTENDER_SIGNUP' };
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6uEraLd3l7gKGTwLXV_mIVUTpb8SEJF9IRIJXsaik0C-VxvVnMOX4B6P_-7DuKaWc/exec';
+  try { await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(data)}); } catch(e) {}
+  document.getElementById('formArea').style.display='none';
+  document.getElementById('successArea').style.display='block';
+}
+</script>
+</body>
+</html>
